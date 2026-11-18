@@ -78,6 +78,9 @@
   .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
   .row2>div{margin-bottom:10px}
   .banner{background:#ffe28a;border:1.5px solid #5c5650;border-radius:12px;padding:10px 12px;font-size:15px;margin-bottom:12px;font-weight:600}
+  .hright{display:flex;align-items:center;gap:8px}
+  .gearbtn{width:40px;height:40px;flex:none;border:1.5px solid #5c5650;border-radius:12px;background:#fff;display:grid;place-items:center;font-size:19px;text-decoration:none;box-shadow:2px 2px 0 #5c5650}
+  .gearbtn:active{transform:translate(2px,2px);box-shadow:none}
   .atitle{font-weight:900;font-size:24px;margin:2px 2px 16px}
   .hint{font-size:13px;color:var(--muted);margin:8px 2px 0}
   #viewAdmin .row2 input{-webkit-appearance:none;appearance:none;display:block;box-sizing:border-box;
@@ -98,7 +101,7 @@
 <body>
 <main>
  <div id="viewMain">
-  <header class="top"><div class="brand"><span class="logo">🍽️</span><div><div class="bname">אוכלים ביחד</div><div class="sub" id="today">…</div></div></div><span id="status" class="note"></span></header>
+  <header class="top"><div class="brand"><span class="logo">🍽️</span><div><div class="bname">אוכלים ביחד</div><div class="sub" id="today">…</div></div></div><div class="hright"><span id="status" class="note"></span><a class="gearbtn" id="toAdmin" href="#admin" hidden aria-label="הגדרות" title="הגדרות">⚙️</a></div></header>
 
   <section id="hero" class="card hero empty">
     <div class="lbl">טוען…</div>
@@ -135,7 +138,6 @@
     <p class="note" style="margin:10px 2px 0">הכפתור פותח וואטסאפ עם הודעה מוכנה. בוחרים את הקבוצה ושולחים.</p>
   </section>
 
-  <a class="btn ghost" id="toAdmin" href="#admin" hidden>⚙️ הגדרות</a>
  </div>
 
  <div id="viewAdmin" hidden>
@@ -229,7 +231,7 @@
     return out;
   }
 
-  let online = false, canEdit = IS_ADMIN;
+  let online = false, canEdit = true;
   let cfg = { ...DEFAULTS }, entries = {}, day = nowIL().key;
   let gotCfg = false, gotDay = false;
   let me = ''; try { me = localStorage.getItem('lunch.me') || ''; } catch (e) {}
