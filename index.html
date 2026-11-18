@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>אוכלים ביחד 🍽️</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{ --bg:#fff4e4; --card:#fff; --ink:#1d1b1a; --muted:#6b645c; --b:1.5px solid #5c5650; --sh:3px 3px 0 #5c5650; --radius:18px; color-scheme:light; }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:Rubik,system-ui,sans-serif;font-size:16px;line-height:1.45}
+  main{max-width:540px;margin:0 auto;padding:20px 16px 56px}
+  header.top{display:flex;justify-content:space-between;align-items:center;margin:0 2px 20px}
+  .brand{display:flex;gap:12px;align-items:center}
+  .logo{width:50px;height:50px;border-radius:14px;background:#ffcf5c;border:var(--b);box-shadow:2px 2px 0 #5c5650;display:grid;place-items:center;font-size:26px;transform:rotate(-6deg)}
+  .bname{font-weight:900;font-size:25px;line-height:1}
+  .sub{font-size:14px;color:var(--muted);margin-top:4px;font-weight:500}
+  h2{font-weight:800;font-size:19px;margin:0 0 14px}
+  .card{background:var(--card);border:var(--b);border-radius:var(--radius);padding:18px;margin-bottom:18px;box-shadow:var(--sh)}
+  .hero{background:#ffcf5c;text-align:center;padding:22px 16px 18px}
+  .hero .lbl{font-size:15px;font-weight:700}
+  .hero .time{font-size:76px;font-weight:900;line-height:1;margin:6px 0 14px;letter-spacing:-1px}
+  .hero .heat{display:inline-block;margin:4px 3px 0;padding:6px 13px;border-radius:999px;font-size:15px;font-weight:600;background:#fff;border:1.5px solid #5c5650}
+  .hero .pk{background:#c3d3ff}
+  .hero .ht{background:#ffb4a2}
+  .hero br{display:none}
+  .hero .lock{margin-top:14px;font-size:14px;font-weight:600}
+  .hero.empty{background:#fff}
+  .hero.empty .time{font-size:24px;font-weight:800;margin:10px 0 6px;letter-spacing:0}
+  label.f{display:block;font-size:15px;font-weight:600;margin:0 0 8px}
+  select,input[type=text],input[type=password],input[type=time],input[type=number],textarea{
+    width:100%;font:inherit;font-weight:500;color:var(--ink);background:#fff;border:var(--b);border-radius:12px;padding:11px 13px;outline:none}
+  select:focus,input:focus,textarea:focus{box-shadow:2px 2px 0 #5c5650}
+  textarea{min-height:120px;resize:vertical}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .opt{--c:#ffb4a2;font:inherit;color:var(--ink);cursor:pointer;text-align:center;font-weight:700;min-height:70px;padding:10px 8px;border-radius:16px;
+    background:color-mix(in srgb,var(--c) 45%,#fff);border:var(--b);box-shadow:2px 2px 0 #5c5650;transition:transform .1s,box-shadow .1s,background .1s}
+  .opt .e{font-size:26px;display:block;line-height:1.2}
+  .opt .t{font-size:15px}
+  .opt:active{transform:translate(2px,2px);box-shadow:1px 1px 0 #5c5650}
+  .opt.on{background:var(--c);transform:translate(2px,2px);box-shadow:0 0 0 #5c5650;outline:1.5px solid #5c5650;outline-offset:-5px}
+  .opt:disabled{opacity:.5;cursor:not-allowed}
+  .chips{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .chip{font:inherit;font-size:14px;font-weight:600;direction:ltr;color:var(--ink);background:#fff;border:1.5px solid #5c5650;border-radius:10px;padding:8px 2px;cursor:pointer;box-shadow:2px 2px 0 #5c5650}
+  .chip.on{background:#5c5650;color:#ffcf5c;transform:translate(2px,2px);box-shadow:none}
+  .chip:disabled{opacity:.5;cursor:not-allowed}
+  .sec{margin-top:20px}
+  .saved{font-size:15px;font-weight:700;margin-top:12px;min-height:20px;text-align:center}
+  .err{color:#c0392b}
+  ul.ppl{list-style:none;margin:0;padding:0}
+  ul.ppl li{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:9px 0;border-bottom:1.5px dashed #e6dccb}
+  ul.ppl li:last-child{border-bottom:none}
+  .who{display:flex;align-items:center;gap:10px;font-weight:700}
+  .av{width:32px;height:32px;border-radius:10px;display:inline-grid;place-items:center;color:#1d1b1a;font-size:15px;font-weight:800;flex:none;border:1.5px solid #5c5650}
+  .tag{font-size:14px;color:var(--muted);white-space:nowrap;font-weight:500}
+  .grp{display:inline-block;font-size:13px;font-weight:800;background:#5c5650;color:#fff;border-radius:999px;padding:2px 10px;margin:16px 0 6px}
+  .grp:first-child{margin-top:0}
+  .missing{display:flex;flex-wrap:wrap;gap:6px}
+  .pill{background:#fff;border:1.5px solid #5c5650;border-radius:999px;padding:3px 10px;font-size:14px}
+  .btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;font:inherit;font-weight:800;font-size:17px;color:#1d1b1a;
+    border:var(--b);border-radius:14px;padding:14px;cursor:pointer;text-decoration:none;margin-top:12px;box-shadow:var(--sh);transition:transform .1s,box-shadow .1s}
+  .btn:active{transform:translate(3px,3px);box-shadow:1px 1px 0 #5c5650}
+  .btn.go{background:#7ae582;margin-top:20px;font-size:18px}
+  .btn.go.done{background:#e9f9eb;box-shadow:none;transform:translate(3px,3px)}
+  .btn.go.pop{animation:pop .5s}
+  @keyframes pop{0%{transform:translate(3px,3px) scale(1)}35%{transform:translate(3px,3px) scale(1.04)}100%{transform:translate(3px,3px) scale(1)}}
+  .btn:disabled{opacity:.45;cursor:not-allowed}
+  .btn.go.done:disabled{opacity:1}
+  .btn.wa{background:#25D366}
+  .btn.remind{background:#ff9f68}
+  .btn.ghost{background:#fff}
+  .btn.primary{background:#ffcf5c}
+  .btn[aria-disabled=true]{opacity:.45;pointer-events:none}
+  .back{display:inline-block;color:var(--ink);text-decoration:none;font-weight:800;padding:4px 2px 12px}
+  .note{font-size:14px;color:var(--muted)}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .row2>div{margin-bottom:10px}
+  .banner{background:#ffe28a;border:1.5px solid #5c5650;border-radius:12px;padding:10px 12px;font-size:15px;margin-bottom:12px;font-weight:600}
+  .atitle{font-weight:900;font-size:24px;margin:2px 2px 16px}
+  .hint{font-size:13px;color:var(--muted);margin:8px 2px 0}
+  #viewAdmin .row2 input{-webkit-appearance:none;appearance:none;display:block;box-sizing:border-box;
+    width:100%;max-width:150px;min-width:0;height:42px;line-height:39px;padding:0 6px;font-size:16px;vertical-align:middle;border-radius:10px;text-align:center;background:#fff}
+  #viewAdmin .row2 input::-webkit-date-and-time-value{text-align:center;margin:0;line-height:39px;height:39px;padding:0}
+  #viewAdmin .row2 input::-webkit-datetime-edit{padding:0;line-height:39px}
+  #viewAdmin .row2 input::-webkit-datetime-edit{justify-content:center}
+  #viewAdmin .row2 input::-webkit-datetime-edit-fields-wrapper{display:flex;justify-content:center}
+  #viewAdmin .row2>div{min-width:0}
+  #viewAdmin .row2 label.f{font-size:14px;margin-bottom:5px}
+  .rest{font-weight:700;margin:4px 0 10px}
+  .row2 + .rest{margin-top:8px}
+  .btn.save{background:#8fe3a0;font-size:18px}
+  .btn.unlock{background:#b3c4ff}
+  .btn.danger{background:#ffa99e}
+</style>
+</head>
+<body>
+<main>
+ <div id="viewMain">
+  <header class="top"><div class="brand"><span class="logo">🍽️</span><div><div class="bname">אוכלים ביחד</div><div class="sub" id="today">…</div></div></div><span id="status" class="note"></span></header>
+
+  <section id="hero" class="card hero empty">
+    <div class="lbl">טוען…</div>
+  </section>
+
+  <section class="card" id="formCard">
+    <h2>מה המצב שלי היום?</h2>
+    <div id="noNames" class="banner" hidden>עוד אין רשימת שמות. מי שמנהלת את הדף מוסיפה אותה ב"הגדרות".</div>
+    <label class="f" for="who">מי את/ה?</label>
+    <select id="who"><option value="">בחירת שם…</option></select>
+
+    <div class="sec" id="statusSec" hidden>
+      <label class="f">מאיפה האוכל היום?</label>
+      <div class="grid" id="statusGrid"></div>
+    </div>
+
+    <div class="sec" id="winSec" hidden>
+      <label class="f" id="winLbl">לאיזה חלון זמן הזמנת?</label>
+      <div class="chips" id="winChips"></div>
+    </div>
+    <button class="btn go" id="submitBtn" type="button" hidden>✓ שליחה</button>
+    <div class="saved" id="saved"></div>
+  </section>
+
+  <section class="card">
+    <h2>מי מה מתי</h2>
+    <div id="list"><p class="note">טוען…</p></div>
+  </section>
+
+  <section class="card">
+    <h2>שליחה לקבוצה</h2>
+    <a id="waSend" class="btn wa" target="_blank" rel="noopener" aria-disabled="true">שליחת שעת המפגש לוואטסאפ</a>
+    <a id="waRemind" class="btn remind" target="_blank" rel="noopener" aria-disabled="true">תזכורת למי שעוד לא מילא</a>
+    <p class="note" style="margin:10px 2px 0">הכפתור פותח וואטסאפ עם הודעה מוכנה. בוחרים את הקבוצה ושולחים.</p>
+  </section>
+
+  <a class="btn ghost" id="toAdmin" href="#admin" hidden>⚙️ הגדרות</a>
+ </div>
+
+ <div id="viewAdmin" hidden>
+  <a class="back" href="#">→ חזרה לדף הראשי</a>
+  <div class="atitle">⚙️ הגדרות</div>
+  <section class="card">
+    <h2>🔐 כניסה</h2>
+    <label class="f" for="sPw">סיסמת מנהלת</label>
+    <input id="sPw" type="password" dir="ltr" autocomplete="current-password">
+    <p class="hint">נשמרת בטלפון אחרי הפעם הראשונה.</p>
+  </section>
+  <section class="card">
+    <h2>👥 הצוות</h2>
+    <label class="f" for="sNames">שם אחד בכל שורה</label>
+    <textarea id="sNames" placeholder="נועה&#10;דניאל&#10;…"></textarea>
+  </section>
+  <section class="card">
+    <h2>⏰ זמנים</h2>
+    <div class="row2">
+      <div><label class="f" for="sClose">סגירת ההרשמה</label><input id="sClose" type="time"></div>
+      <div><label class="f" for="sDefault">שעה בלי משלוחים</label><input id="sDefault" type="time"></div>
+      <div><label class="f" for="sPick">🛵 דקות איסוף לפני</label><input id="sPick" type="number" min="0" max="60"></div>
+      <div><label class="f" for="sHeat">🔥 דקות חימום לפני</label><input id="sHeat" type="number" min="0" max="60"></div>
+    </div>
+  </section>
+  <section class="card">
+    <h2>🍽️ שעות המסעדות</h2>
+    <div class="rest">🍝 איטלקית</div>
+    <div class="row2">
+      <div><label class="f" for="sItOpen">פתיחה</label><input id="sItOpen" type="time"></div>
+      <div><label class="f" for="sItClose">סגירה</label><input id="sItClose" type="time"></div>
+    </div>
+    <div class="rest">🥩 באביס</div>
+    <div class="row2">
+      <div><label class="f" for="sBaOpen">פתיחה</label><input id="sBaOpen" type="time"></div>
+      <div><label class="f" for="sBaClose">סגירה</label><input id="sBaClose" type="time"></div>
+    </div>
+  </section>
+  <input id="sLink" type="hidden">
+  <button class="btn save" id="sSave" type="button">💾 שמירת הגדרות</button>
+  <div class="saved" id="sSaved"></div>
+
+  <section class="card" style="margin-top:22px">
+    <h2>🧪 ניסיון ובדיקות</h2>
+    <p class="hint" style="margin-top:-6px">לשימוש בזמן בדיקות. הפעולות כאן משפיעות על כולם.</p>
+    <button class="btn unlock" id="tUnlock" type="button"></button>
+    <button class="btn danger" id="tClear" type="button">🗑️ מחיקת כל הסימונים של היום</button>
+    <div class="saved" id="tSaved"></div>
+  </section>
+ </div>
+</main>
+
+<script>
+(() => {
+  // 👇 כאן מדביקים את הכתובת של ה־Apps Script (מסתיימת ב־/exec)
+  const API_URL = 'PASTE_YOUR_SCRIPT_URL_HERE';
+
+  const IS_ADMIN = new URLSearchParams(location.search).get('admin') === '1';
+  const APP_URL = location.origin + location.pathname;
+  const TZ = 'Asia/Jerusalem';
+  const DEFAULTS = {
+    names: [], link: '', closeTime: '10:00', defaultTime: '12:30', heatMinutes: 10, pickupMinutes: 15,
+    italian: { open: '11:30', close: '14:30' }, babis: { open: '11:30', close: '15:30' }
+  };
+  const STATUSES = [
+    { id: 'italian', c: '#ff9b85', e: '🍝', t: 'איטלקית', order: true, join: true },
+    { id: 'babis',   c: '#e8b98a', e: '🥩', t: 'באביס',   order: true, join: true },
+    { id: 'dining',  c: '#8fd9b6', e: '🍲', t: 'חדר אוכל/חלביה', join: true },
+    { id: 'home',    c: '#ffd85c', e: '🏠', t: 'הבאתי מהבית', join: true },
+    { id: 'friends', c: '#a9bfff', e: '👋', t: 'אוכל/ת עם אחרים' },
+    { id: 'off',     c: '#d6d1ca', e: '❌', t: 'לא בעבודה היום' },
+  ];
+  const AV = ['#ffb4a2', '#ffcf5c', '#7ae582', '#c3d3ff', '#e8c39e', '#f7b2d9', '#b8e0d2', '#ff9f68'];
+  const ST = Object.fromEntries(STATUSES.map(s => [s.id, s]));
+
+  const $ = id => document.getElementById(id);
+  const toMin = s => { const [h, m] = String(s || '0:0').split(':').map(Number); return (h || 0) * 60 + (m || 0); };
+  const toHM = n => String(Math.floor(n / 60)).padStart(2, '0') + ':' + String(n % 60).padStart(2, '0');
+  const hex = s => Array.from(new TextEncoder().encode(s)).map(b => b.toString(16).padStart(2, '0')).join('');
+
+  function nowIL() {
+    const p = Object.fromEntries(new Intl.DateTimeFormat('en-CA', {
+      timeZone: TZ, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false
+    }).formatToParts(new Date()).map(x => [x.type, x.value]));
+    const hh = p.hour === '24' ? '00' : p.hour;
+    return { key: `${p.year}-${p.month}-${p.day}`, min: toMin(`${hh}:${p.minute}`) };
+  }
+  function windows(r) {
+    const out = []; let a = toMin(r.open); const z = toMin(r.close);
+    while (a + 15 <= z) { out.push(toHM(a) + '-' + toHM(a + 15)); a += 15; }
+    return out;
+  }
+
+  let online = false, canEdit = IS_ADMIN;
+  let cfg = { ...DEFAULTS }, entries = {}, day = nowIL().key;
+  let gotCfg = false, gotDay = false;
+  let me = ''; try { me = localStorage.getItem('lunch.me') || ''; } catch (e) {}
+  const link = () => cfg.link || APP_URL;
+
+  const ARGS = { getState: [], saveEntry: ['name', 'status', 'window'], saveSettings: ['pw', 'cfg'], toggleUnlock: ['pw'], clearToday: ['pw'] };
+  async function api(action, ...args) {
+    const body = { action };
+    ARGS[action].forEach((k, i) => body[k] = args[i]);
+    const r = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(body) });
+    const j = await r.json();
+    if (!j.ok) throw new Error(j.error || 'ERROR');
+    return j.data;
+  }
+
+  function apply(state) {
+    cfg = { ...DEFAULTS, ...state.cfg };
+    day = state.day; entries = state.entries || {};
+    online = true; gotCfg = true; gotDay = true;
+    if (!dirty) syncDraft();
+    if (location.hash !== '#admin') fillSettings();
+    $('status').textContent = '';
+    render();
+  }
+
+  const locked = () => cfg.unlockDate !== day && nowIL().min >= toMin(cfg.closeTime);
+
+
+  function compute() {
+    const list = Object.values(entries).filter(e => cfg.names.includes(e.name));
+    const joiners = list.filter(e => ST[e.status]?.join);
+    const orders = list.filter(e => ST[e.status]?.order && e.window);
+    let meet = null;
+    if (joiners.length) {
+      meet = orders.length ? Math.max(...orders.map(e => toMin(e.window.split('-')[1]))) : toMin(cfg.defaultTime);
+    }
+    const heaters = joiners.filter(e => e.status === 'home');
+    const heat = meet != null && heaters.length ? meet - Number(cfg.heatMinutes || 0) : null;
+    const pickup = meet != null && orders.length ? meet - Number(cfg.pickupMinutes || 0) : null;
+    const filled = new Set(list.map(e => e.name));
+    const missing = cfg.names.filter(n => !filled.has(n));
+    const out = list.filter(e => !ST[e.status]?.join);
+    return { joiners, heaters, orders, meet, heat, pickup, missing, out };
+  }
+
+  function render() {
+    const d = new Date();
+    $('today').textContent = new Intl.DateTimeFormat('he-IL', { timeZone: TZ, weekday: 'long', day: 'numeric', month: 'long' }).format(d);
+    const c = compute(), lk = locked();
+
+    // hero
+    const hero = $('hero');
+    if (c.meet == null) {
+      hero.className = 'card hero empty';
+      hero.innerHTML = `<div class="lbl">ארוחת צהריים</div><div class="time">עוד אין משתתפים היום</div>
+        <div class="lock note"></div>`;
+    } else {
+      hero.className = 'card hero';
+      hero.innerHTML = `<div class="lbl">${lk ? 'היום יושבים לאכול ב־' : 'כרגע יושבים לאכול ב־ (עוד מתעדכן)'}</div>
+        <div class="time"></div>
+        ${c.pickup != null ? '<div class="heat pk"></div><br>' : ''}${c.heat != null ? '<div class="heat ht"></div>' : ''}<div class="lock"></div>`;
+      hero.querySelector('.time').textContent = toHM(c.meet);
+      if (c.pickup != null) hero.querySelector('.pk').textContent = '🛵 יוצאים לאסוף משלוחים: ' + toHM(c.pickup);
+      if (c.heat != null) hero.querySelector('.ht').textContent = '🔥 מי שמחמם: ב־' + toHM(c.heat);
+    }
+    hero.querySelector('.lock').textContent = lk
+      ? '🔒 ההרשמה נסגרה ב־' + cfg.closeTime + '. השעה סופית'
+      : (() => { const left = toMin(cfg.closeTime) - nowIL().min;
+          return left > 0 && left <= 60 ? `⏳ נשארו ${left} דקות לסימון` : '⏳ אפשר לעדכן עד ' + cfg.closeTime; })();
+
+    // names select
+    const sel = $('who');
+    const want = ['', ...cfg.names];
+    if (sel.options.length !== want.length || want.some((n, i) => sel.options[i].value !== n)) {
+      sel.innerHTML = '';
+      want.forEach(n => { const o = document.createElement('option'); o.value = n; o.textContent = n || 'בחירת שם…'; sel.appendChild(o); });
+    }
+    if (me && !cfg.names.includes(me)) me = '';
+    sel.value = me;
+    $('noNames').hidden = cfg.names.length > 0 || !gotCfg;
+
+    // status grid
+    const mine = me ? entries[me] : null;
+    $('statusSec').hidden = !me;
+    const grid = $('statusGrid'); grid.innerHTML = '';
+    STATUSES.forEach(s => {
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'opt' + (draft.status === s.id ? ' on' : '');
+      b.disabled = lk || !online;
+      b.innerHTML = '<span class="e"></span><span class="t"></span>';
+      b.querySelector('.e').textContent = s.e; b.querySelector('.t').textContent = s.t;
+      b.style.setProperty('--c', s.c);
+      b.onclick = () => pickStatus(s.id);
+      grid.appendChild(b);
+    });
+
+    // windows
+    const curStatus = draft.status;
+    const showWin = me && ST[curStatus]?.order;
+    $('winSec').hidden = !showWin;
+    if (showWin) {
+      $('winLbl').textContent = `לאיזה חלון זמן הזמנת מ${ST[curStatus].t}?`;
+      const chips = $('winChips'); chips.innerHTML = '';
+      windows(cfg[curStatus]).forEach(w => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'chip' + (draft.window === w ? ' on' : '');
+        b.disabled = lk || !online; b.textContent = w;
+        b.style.setProperty('--c', ST[curStatus].c);
+        b.onclick = () => { draft.window = w; dirty = true; $('saved').textContent = ''; render(); };
+        chips.appendChild(b);
+      });
+    }
+    // submit
+    const sb = $('submitBtn');
+    sb.hidden = !me;
+    const ready = draft.status && (!ST[draft.status].order || draft.window);
+    const same = mine && mine.status === draft.status && (mine.window || null) === (draft.window || null);
+    sb.className = 'btn go' + (same ? ' done' : '');
+    sb.textContent = saving ? 'שולח…' : same ? '✓ הסימון שלך להיום נשמר' : mine ? '🔄 שלח עדכון' : '✓ שליחה';
+    sb.disabled = lk || !online || saving || !ready || same;
+
+    // list
+    const L = $('list'); L.innerHTML = '';
+    if (!gotDay) { L.innerHTML = '<p class="note">טוען…</p>'; }
+    else {
+      const addGroup = (title, items, fn) => {
+        if (!items.length) return;
+        const g = document.createElement('div'); g.className = 'grp'; g.textContent = title; L.appendChild(g);
+        const ul = document.createElement('ul'); ul.className = 'ppl';
+        items.forEach(e => { const li = document.createElement('li'); const [a, b] = fn(e);
+          const s1 = document.createElement('span'); s1.className = 'who';
+          const av = document.createElement('span'); av.className = 'av'; av.textContent = a.trim().charAt(0);
+          av.style.background = AV[[...a].reduce((h, ch) => (h * 31 + ch.charCodeAt(0)) >>> 0, 7) % AV.length];
+          const nm = document.createElement('span'); nm.textContent = a; s1.append(av, nm);
+          const s2 = document.createElement('span'); s2.className = 'tag'; s2.textContent = b;
+          li.append(s1, s2); ul.appendChild(li); });
+        L.appendChild(ul);
+      };
+      const byWin = (a, b) => (a.window || '').localeCompare(b.window || '');
+      addGroup(`מצטרפים (${c.joiners.length})`, [...c.joiners].sort(byWin), e =>
+        [e.name, ST[e.status].e + ' ' + ST[e.status].t + (e.window ? ' · ' + e.window : '')]);
+      addGroup('לא מצטרפים היום', c.out, e => [e.name, ST[e.status].e + ' ' + ST[e.status].t]);
+      if (false) {
+        const g = document.createElement('div'); g.className = 'grp'; g.textContent = `עוד לא מילאו (${c.missing.length})`; L.appendChild(g);
+        const m = document.createElement('div'); m.className = 'missing';
+        c.missing.forEach(n => { const p = document.createElement('span'); p.className = 'pill'; p.textContent = n; m.appendChild(p); });
+        L.appendChild(m);
+      }
+      if (!L.children.length) L.innerHTML = '<p class="note">עוד אף אחד לא סימן היום.</p>';
+    }
+
+    // whatsapp
+    const send = $('waSend'), rem = $('waRemind');
+    if (c.meet != null) {
+      let msg = `🍽️ *ארוחת צהריים היום*\nיושבים לאכול בשעה *${toHM(c.meet)}*`;
+      if (c.pickup != null) msg += `\n🛵 יוצאים לאסוף משלוחים ב־${toHM(c.pickup)}`;
+      if (c.heat != null) msg += `\n🔥 מי שמחמם אוכל: לחמם ב־${toHM(c.heat)}`;
+      msg += `\n\nמגיעים: ${c.joiners.map(e => e.name).join(', ')}`;
+      send.href = 'https://wa.me/?text=' + encodeURIComponent(msg);
+      send.setAttribute('aria-disabled', 'false');
+    } else { send.removeAttribute('href'); send.setAttribute('aria-disabled', 'true'); }
+    if (c.missing.length && !lk) {
+      const msg = `⏰ *תזכורת: עוד לא מילאו לגבי אוכל היום*\n\n${c.missing.map(n => '• ' + n).join('\n')}\n\nההרשמה נסגרת ב־${cfg.closeTime} 👇\n${link()}`;
+      rem.href = 'https://wa.me/?text=' + encodeURIComponent(msg);
+      rem.setAttribute('aria-disabled', 'false');
+    } else { rem.removeAttribute('href'); rem.setAttribute('aria-disabled', 'true'); }
+
+    $('toAdmin').hidden = !canEdit;
+    $('tUnlock').textContent = cfg.unlockDate === day ? '🔒 לנעול שוב לפי שעת הסגירה' : '🔓 לפתוח את ההרשמה להיום (גם אחרי שעת הסגירה)';
+  }
+
+  let draft = { status: null, window: null }, dirty = false;
+  function syncDraft() {
+    const mine = me ? entries[me] : null;
+    draft = { status: mine?.status || null, window: mine?.window || null }; dirty = false;
+  }
+  function pickStatus(id) {
+    if (draft.status !== id) draft = { status: id, window: null };
+    dirty = true;
+    if (ST[id].order && !draft.window) flash('בחרו חלון זמן 👇'); else $('saved').textContent = '';
+    render();
+  }
+  $('submitBtn').addEventListener('click', () => save(draft.status, draft.window));
+
+  let saving = false;
+  async function save(status, window) {
+    if (!online || !me || saving || !status) return;
+    if (locked()) { flash('ההרשמה נסגרה להיום', true); return; }
+    saving = true; flash('שומר…'); render();
+    const wasUpdate = !!entries[me];
+    try {
+      const st = await api('saveEntry', me, status, window || '');
+      dirty = false; apply(st);
+      flash(wasUpdate ? 'העדכון נשמר ✓' : 'נשמר ✓ תודה!');
+      const sbtn = $('submitBtn'); sbtn.classList.remove('pop'); void sbtn.offsetWidth; setTimeout(() => sbtn.classList.add('pop'), 0);
+    } catch (e) {
+      const m = String(e && e.message || e);
+      flash(m.includes('LOCKED') ? 'ההרשמה נסגרה להיום' : 'השמירה נכשלה, נסו שוב', true);
+    } finally { saving = false; render(); }
+  }
+
+  let flashT;
+  function flash(t, err) {
+    const el = $('saved'); el.textContent = t; el.className = 'saved' + (err ? ' err' : '');
+    clearTimeout(flashT); if (!err && t.endsWith('✓')) flashT = setTimeout(() => { el.textContent = ''; }, 2500);
+  }
+
+  $('who').addEventListener('change', e => {
+    me = e.target.value; syncDraft();
+    try { localStorage.setItem('lunch.me', me); } catch (err) {}
+    $('saved').textContent = '';
+    render();
+  });
+
+  try { $('sPw').value = localStorage.getItem('lunch.pw') || ''; } catch (e) {}
+  const pw = () => $('sPw').value;
+  const rememberPw = () => { try { localStorage.setItem('lunch.pw', pw()); } catch (e) {} };
+  const errMsg = e => String(e && e.message || e).includes('BAD_PW') ? 'סיסמה שגויה' : 'הפעולה נכשלה, נסי שוב';
+
+  $('sSave').addEventListener('click', async () => {
+    const names = [...new Set($('sNames').value.split('\n').map(s => s.trim()).filter(Boolean))];
+    const next = {
+      names,
+      closeTime: $('sClose').value || DEFAULTS.closeTime, defaultTime: $('sDefault').value || DEFAULTS.defaultTime,
+      heatMinutes: Math.max(0, Number($('sHeat').value) || 0),
+      pickupMinutes: Math.max(0, Number($('sPick').value) || 0),
+      link: $('sLink').value.trim(),
+      italian: { open: $('sItOpen').value || DEFAULTS.italian.open, close: $('sItClose').value || DEFAULTS.italian.close },
+      babis: { open: $('sBaOpen').value || DEFAULTS.babis.open, close: $('sBaClose').value || DEFAULTS.babis.close },
+    };
+    $('sSaved').textContent = 'שומר…';
+    try { apply(await api('saveSettings', pw(), next)); rememberPw(); fillSettings(); $('sSaved').textContent = 'נשמר ✓'; }
+    catch (e) { $('sSaved').textContent = errMsg(e); }
+  });
+
+  $('tUnlock').addEventListener('click', async () => {
+    $('tSaved').textContent = 'שומר…';
+    try { apply(await api('toggleUnlock', pw())); rememberPw(); $('tSaved').textContent = 'עודכן ✓'; }
+    catch (e) { $('tSaved').textContent = errMsg(e); }
+  });
+  let clearArmed = false;
+  $('tClear').addEventListener('click', async () => {
+    if (!clearArmed) { clearArmed = true; $('tClear').textContent = 'בטוח? לחיצה נוספת מוחקת'; setTimeout(() => { clearArmed = false; $('tClear').textContent = '🗑️ מחיקת כל הסימונים של היום'; }, 4000); return; }
+    clearArmed = false; $('tClear').textContent = 'מוחק…';
+    try { apply(await api('clearToday', pw())); rememberPw(); $('tSaved').textContent = 'נמחק ✓'; }
+    catch (e) { $('tSaved').textContent = errMsg(e); }
+    $('tClear').textContent = '🗑️ מחיקת כל הסימונים של היום';
+  });
+
+  function fillSettings() {
+    $('sNames').value = cfg.names.join('\n'); $('sLink').value = cfg.link || '';
+    $('sLink').placeholder = APP_URL;
+    $('sClose').value = cfg.closeTime; $('sDefault').value = cfg.defaultTime;
+    $('sHeat').value = cfg.heatMinutes; $('sPick').value = cfg.pickupMinutes;
+    $('sItOpen').value = cfg.italian.open; $('sItClose').value = cfg.italian.close;
+    $('sBaOpen').value = cfg.babis.open; $('sBaClose').value = cfg.babis.close;
+  }
+
+  function route() {
+    const admin = location.hash === '#admin' && canEdit;
+    $('viewMain').hidden = admin; $('viewAdmin').hidden = !admin;
+    if (admin) { fillSettings(); $('sSaved').textContent = ''; $('tSaved').textContent = ''; }
+    window.scrollTo(0, 0);
+  }
+  window.addEventListener('hashchange', route);
+
+  let loading = false;
+  async function load() {
+    if (loading || saving) return;
+    loading = true;
+    try { apply(await api('getState')); }
+    catch (e) { $('status').textContent = 'אין חיבור, מנסה שוב…'; }
+    finally { loading = false; }
+  }
+
+  render(); route();
+  if (API_URL.startsWith('PASTE')) { $('status').textContent = 'חסרה כתובת ה־API בקוד'; return; }
+  load();
+  setInterval(() => { if (!document.hidden) load(); else render(); }, 15000);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) load(); });
+})();
+</script>
+</body>
+</html>
