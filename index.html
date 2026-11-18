@@ -393,7 +393,7 @@
       send.setAttribute('aria-disabled', 'false');
     } else { send.removeAttribute('href'); send.setAttribute('aria-disabled', 'true'); }
     if (c.missing.length && !lk) {
-      const msg = `⏰ *תזכורת: עוד לא מילאו לגבי אוכל היום*\n\n${c.missing.map(n => '• ' + n).join('\n')}\n\nההרשמה נסגרת ב־${cfg.closeTime} 👇\n${link()}`;
+      const msg = `⏰ *תזכורת למי שעוד לא מילא היום* 🍽️\nצריך למלא עד ${cfg.closeTime} 👇\n${link()}`;
       rem.href = 'https://wa.me/?text=' + encodeURIComponent(msg);
       rem.setAttribute('aria-disabled', 'false');
     } else { rem.removeAttribute('href'); rem.setAttribute('aria-disabled', 'true'); }
